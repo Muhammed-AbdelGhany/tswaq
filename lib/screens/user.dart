@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
+import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/providers/dark_theme_provider.dart';
 import 'package:tswaq/widgets/user_info_tile.dart';
 
 class UserScreen extends StatefulWidget {
@@ -12,7 +14,6 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  bool _switchValue = false;
   ScrollController _controller = ScrollController();
 
   @override
@@ -27,6 +28,7 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -112,11 +114,14 @@ class _UserScreenState extends State<UserScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'User Info',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'User Info',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Divider(
@@ -145,22 +150,25 @@ class _UserScreenState extends State<UserScreen> {
                     SizedBox(
                       height: 8,
                     ),
-                    Text(
-                      'User Settings',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'User Settings',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Divider(
                       thickness: 1,
                     ),
                     ListTileSwitch(
-                      value: _switchValue,
+                      value: theme.darkTheme,
                       leading: const Icon(Feather.moon),
                       onChanged: (value) {
                         setState(() {
-                          _switchValue = value;
+                          theme.darkTheme = value;
                         });
                       },
                       switchActiveColor: kPrimaryColor,
