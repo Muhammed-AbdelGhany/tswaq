@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:tswaq/screens/empty_cart.dart';
+import 'package:tswaq/screens/full_cart.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  CartScreen({Key? key}) : super(key: key);
 
+  List products = [1];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('cart screen'),
-      ),
-    );
+    return products.isEmpty
+        ? Scaffold(
+            body: EmptyCartScreen(),
+          )
+        : Scaffold(
+            body: FullCartScreen(),
+            appBar: AppBar(
+              title: Text(
+                'Cart Item Count',
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Feather.trash),
+                ),
+              ],
+            ),
+          );
   }
 }
