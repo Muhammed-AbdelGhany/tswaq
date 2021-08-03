@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:tswaq/screens/empty_cart.dart';
-import 'package:tswaq/screens/full_cart.dart';
+import 'package:tswaq/widgets/empty_cart.dart';
+import 'package:tswaq/widgets/full_cart.dart';
 
 class CartScreen extends StatelessWidget {
   CartScreen({Key? key}) : super(key: key);

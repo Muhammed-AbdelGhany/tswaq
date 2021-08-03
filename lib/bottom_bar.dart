@@ -17,7 +17,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   List<Map<String, dynamic>> _pages = [];
 
-  int _selectedPage = 3;
+  int _selectedPage = 1;
 
   void _selectedIndext(int index) {
     setState(() {
@@ -72,7 +72,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
             BottomNavigationBarItem(
               icon: Icon(null),
-              label: 'Search',
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(Feather.shopping_cart),

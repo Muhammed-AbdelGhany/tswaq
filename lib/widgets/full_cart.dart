@@ -167,7 +167,9 @@ class _FullCartScreenState extends State<FullCartScreen> {
         Container(
             child: Column(
           children: [
-            Divider(),
+            Divider(
+              thickness: 1,
+            ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
