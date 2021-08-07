@@ -17,7 +17,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   List<Map<String, dynamic>> _pages = [];
 
-  int _selectedPage = 1;
+  int _selectedPage = 0;
 
   void _selectedIndext(int index) {
     setState(() {
