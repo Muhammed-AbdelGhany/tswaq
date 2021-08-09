@@ -176,7 +176,7 @@ class _FullCartScreenState extends State<FullCartScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 200,
+                    width: MediaQuery.of(context).size.width * .45,
                     child: RaisedButton(
                       color: Colors.red,
                       onPressed: () {},
@@ -190,7 +190,7 @@ class _FullCartScreenState extends State<FullCartScreen> {
                   Spacer(),
                   Container(
                     alignment: Alignment.center,
-                    width: 160,
+                    width: MediaQuery.of(context).size.width * .45,
                     child: Row(
                       children: [
                         Text(

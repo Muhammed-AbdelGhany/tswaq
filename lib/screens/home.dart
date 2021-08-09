@@ -5,6 +5,9 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/screens/brands.dart';
+import 'package:tswaq/widgets/category_widget.dart';
+import 'package:tswaq/widgets/popular_product_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -23,6 +26,15 @@ class HomeScreen extends StatelessWidget {
     'assets/images/Dell.jpg',
     'assets/images/addidas.jpg',
     'assets/images/apple.jpg',
+  ];
+  List<Map<String, Object>> categories = [
+    {'category': 'Phones', 'photo': 'assets/images/CatPhones.png'},
+    {'category': 'Clothes', 'photo': 'assets/images/CatClothes.jpg'},
+    {'category': 'Laptops', 'photo': 'assets/images/CatLaptops.png'},
+    {'category': 'Beauty', 'photo': 'assets/images/CatBeauty.jpg'},
+    {'category': 'Furniture', 'photo': 'assets/images/CatFurniture.jpg'},
+    {'category': 'Shoes', 'photo': 'assets/images/CatShoes.jpg'},
+    {'category': 'Watches', 'photo': 'assets/images/CatWatches.jpg'},
   ];
   @override
   Widget build(BuildContext context) {
@@ -116,6 +128,31 @@ class HomeScreen extends StatelessWidget {
                 height: 10,
               ),
               Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 220,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                width: double.infinity,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (ctx, i) => CategoriesWidget(
+                    title: categories[i]['category'],
+                    image: categories[i]['photo'],
+                  ),
+                ),
+              ),
+              Container(
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -144,7 +181,16 @@ class HomeScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Swiper(
                   autoplay: true,
-                  onTap: (index) {},
+                  onTap: (index) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BrandsScreen(
+                          index: index,
+                        ),
+                      ),
+                    );
+                  },
                   viewportFraction: 0.8,
                   scale: 0.9,
                   itemBuilder: (BuildContext context, int index) {
@@ -164,6 +210,42 @@ class HomeScreen extends StatelessWidget {
                     iconNext: null,
                     iconPrevious: null,
                   ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      'Popular Brands',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      maxLines: 1,
+                    ),
+                    Spacer(),
+                    Text(
+                      ' View all...',
+                      style: TextStyle(fontSize: 16, color: Colors.red),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 300,
+                width: double.infinity,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 6,
+                  itemBuilder: (ctx, i) => PopularProductWidget(),
                 ),
               ),
             ],
