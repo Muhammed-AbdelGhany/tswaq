@@ -3,9 +3,12 @@ import 'package:backdrop/button.dart';
 import 'package:backdrop/scaffold.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/screens/brands.dart';
+import 'package:tswaq/screens/cart.dart';
+import 'package:tswaq/screens/feeds.dart';
 import 'package:tswaq/widgets/category_widget.dart';
 import 'package:tswaq/widgets/popular_product_widget.dart';
 
@@ -102,8 +105,108 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        backLayer: Center(
-          child: Text("Back Layer"),
+        backLayer: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [kPrimaryColor, Colors.white],
+                ),
+              ),
+            ),
+            Positioned(
+              top: -150,
+              left: 100,
+              child: Transform.rotate(
+                angle: 70,
+                child: Container(
+                  height: 400,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.white.withOpacity(.3),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 20,
+              left: 200,
+              child: Transform.rotate(
+                angle: 70,
+                child: Container(
+                  height: 400,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.white.withOpacity(.3),
+                  ),
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.all(40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        height: 120,
+                        width: 120,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                              'https://cdn1.vectorstock.com/i/thumb-large/62/60/default-avatar-photo-placeholder-profile-image-vector-21666260.jpg'),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BacklayerContent(
+                        title: 'Feed',
+                        icon: Feather.rss,
+                        screen: FeedScreen(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BacklayerContent(
+                        title: 'Cart',
+                        icon: Feather.shopping_cart,
+                        screen: CartScreen(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BacklayerContent(
+                        title: 'WishList',
+                        icon: Icons.favorite_outline,
+                        screen: FeedScreen(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BacklayerContent(
+                        title: 'Add a new product',
+                        icon: Icons.upload_outlined,
+                        screen: FeedScreen(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
         frontLayer: SingleChildScrollView(
           child: Column(
@@ -221,7 +324,7 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'Popular Brands',
+                      'Popular Products',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                       maxLines: 1,
@@ -251,6 +354,47 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BacklayerContent extends StatelessWidget {
+  final Widget? screen;
+  final title;
+  final IconData? icon;
+  const BacklayerContent({
+    Key? key,
+    this.title,
+    this.icon,
+    this.screen,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (ctx) => screen!),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Icon(
+            icon,
+            size: 22,
+          ),
+        ],
       ),
     );
   }

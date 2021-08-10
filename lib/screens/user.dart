@@ -4,6 +4,9 @@ import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/providers/dark_theme_provider.dart';
+import 'package:tswaq/screens/cart.dart';
+import 'package:tswaq/screens/wishlist.dart';
+import 'package:tswaq/widgets/user_bag_tile.dart';
 import 'package:tswaq/widgets/user_info_tile.dart';
 
 class UserScreen extends StatefulWidget {
@@ -117,7 +120,32 @@ class _UserScreenState extends State<UserScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
-                        'User Info',
+                        'User Bag',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    UserBagTile(
+                      title: 'Withlist',
+                      icon: Feather.heart,
+                      count: "6",
+                      screen: WishListScreen(),
+                    ),
+                    UserBagTile(
+                      title: 'Cart',
+                      icon: Feather.shopping_cart,
+                      count: "2",
+                      screen: CartScreen(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'User Information',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
