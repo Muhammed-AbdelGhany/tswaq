@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
-import 'package:tswaq/constants/constants.dart';
-import 'package:tswaq/models/product.dart';
+
 import 'package:tswaq/providers/product_provider.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
-class FeedScreen extends StatelessWidget {
-  FeedScreen({Key? key}) : super(key: key);
-  static const routeName = '/feeds';
+class CategoryFeedScreen extends StatelessWidget {
+  CategoryFeedScreen({Key? key}) : super(key: key);
+  static const routeName = '/category-feeds';
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as String;
+    final category = ModalRoute.of(context)!.settings.arguments as String;
     final productProvider = Provider.of<ProductProvider>(context);
-    final _products = productProvider.products;
+    final _products = productProvider.productsWithCategory(category);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Feeds'),
+        title: Text(category),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(

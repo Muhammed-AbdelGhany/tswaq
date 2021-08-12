@@ -21,15 +21,16 @@ class HomeScreen extends StatelessWidget {
     'assets/images/carousel4.png',
   ];
 
-  List swiperImages = [
-    'assets/images/h&m.jpg',
-    'assets/images/Huawei.jpg',
-    'assets/images/nike.jpg',
-    'assets/images/samsung.jpg',
-    'assets/images/Dell.jpg',
-    'assets/images/addidas.jpg',
-    'assets/images/apple.jpg',
+  List<Map<String, Object>> brands = [
+    {'brand': 'H&M', 'photo': 'assets/images/h&m.jpg'},
+    {'brand': 'Huawei', 'photo': 'assets/images/Huawei.jpg'},
+    {'brand': 'Nike', 'photo': 'assets/images/nike.jpg'},
+    {'brand': 'Samsung', 'photo': 'assets/images/samsung.jpg'},
+    {'brand': 'Dell', 'photo': 'assets/images/Dell.jpg'},
+    {'brand': 'Addidas', 'photo': 'assets/images/addidas.jpg'},
+    {'brand': 'Apple', 'photo': 'assets/images/apple.jpg'},
   ];
+
   List<Map<String, Object>> categories = [
     {'category': 'Phones', 'photo': 'assets/images/CatPhones.png'},
     {'category': 'Clothes', 'photo': 'assets/images/CatClothes.jpg'},
@@ -285,14 +286,9 @@ class HomeScreen extends StatelessWidget {
                 child: Swiper(
                   autoplay: true,
                   onTap: (index) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BrandsScreen(
-                          index: index,
-                        ),
-                      ),
-                    );
+                    Navigator.pushNamed(context, BrandsScreen.routeName,
+                        arguments: brands[index]['brand']);
+                    print(brands[index]['brand']);
                   },
                   viewportFraction: 0.8,
                   scale: 0.9,
@@ -301,13 +297,13 @@ class HomeScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(14),
                         child: new Image.asset(
-                          swiperImages[index],
+                          brands[index]['photo'].toString(),
                           fit: BoxFit.fill,
                         ),
                       ),
                     );
                   },
-                  itemCount: swiperImages.length,
+                  itemCount: brands.length,
                   // pagination: new SwiperPagination(),
                   control: new SwiperControl(
                     iconNext: null,

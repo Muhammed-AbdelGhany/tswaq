@@ -1,11 +1,25 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/screens/product_details.dart';
 
 class ProductWidget extends StatelessWidget {
-  const ProductWidget({
-    Key? key,
-  }) : super(key: key);
+  final title;
+  final id;
+  final imageUrl;
+  final price;
+  final quantity;
+  final isFavorite;
+
+  const ProductWidget(
+      {Key? key,
+      this.isFavorite,
+      this.id,
+      this.title,
+      this.imageUrl,
+      this.price,
+      this.quantity})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +50,10 @@ class ProductWidget extends StatelessWidget {
                 Container(
                   height: 217,
                   width: double.infinity,
-                  child: Image.network(
-                    'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg',
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
                     fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 Positioned(
@@ -64,7 +79,7 @@ class ProductWidget extends StatelessWidget {
               padding: EdgeInsets.only(top: 10, right: 10, left: 10),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Rolex Watch',
+                title,
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
@@ -73,7 +88,7 @@ class ProductWidget extends StatelessWidget {
               padding: EdgeInsets.only(top: 10, right: 10, left: 10),
               alignment: Alignment.centerLeft,
               child: Text(
-                '\$ 197.0',
+                '\$ $price',
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
               ),
@@ -95,7 +110,7 @@ class ProductWidget extends StatelessWidget {
                           style: TextStyle(fontSize: 14, color: Colors.grey),
                         ),
                         Text(
-                          '12 left',
+                          '$quantity left',
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 14, color: Colors.grey),
                         ),

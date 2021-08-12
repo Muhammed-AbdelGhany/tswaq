@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tswaq/constants/constants.dart';
-import 'package:tswaq/widgets/popular_product_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:tswaq/models/product.dart';
+import 'package:tswaq/providers/product_provider.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
 class BrandsScreen extends StatefulWidget {
+  static const routeName = '/brands';
   final index;
   const BrandsScreen({Key? key, this.index}) : super(key: key);
 
@@ -12,88 +14,40 @@ class BrandsScreen extends StatefulWidget {
 }
 
 class _BrandsScreenState extends State<BrandsScreen> {
-  List<Map<String, Object>> brandProducts = [
-    {
-      'brand': 'H&m',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
-    {
-      'brand': 'Huwaui',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
-    {
-      'brand': 'Nike',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
-    {
-      'brand': 'Samsung',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
-    {
-      'brand': 'Dell',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
-    {
-      'brand': 'Addidas',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
-    {
-      'brand': 'Apple',
-      'products': [
-        {
-          'name': 'Rolex',
-          'image':
-              'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg'
-        }
-      ],
-    },
+  List brandProducts = [
+    'H&M',
+    'Huawei',
+    'Nike',
+    'Samsung',
+    'Dell',
+    'Addidas',
+    'Apple',
   ];
   int _currentIndex = 0;
 
+  String? brand;
   @override
-  void initState() {
-    _currentIndex = widget.index;
-    super.initState();
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    brand = ModalRoute.of(context)!.settings.arguments as String;
+    _currentIndex = brandProducts.indexWhere((element) => element == brand);
+    print(_currentIndex);
+    super.didChangeDependencies();
   }
+  // @override
+  // void initState() {
+  //   _currentIndex = widget.index;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    List<Product> _products = productProvider.productsWithBrand(brand!);
+
+    //final _products = productProvider.products;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Brands'),
@@ -119,6 +73,9 @@ class _BrandsScreenState extends State<BrandsScreen> {
                   return InkWell(
                     onTap: () {
                       setState(() {
+                        brand = brandProducts[i];
+
+                        print("$brand");
                         _currentIndex = i;
                       });
                     },
@@ -137,7 +94,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
                                   ? Colors.black
                                   : Colors.transparent)),
                       child: Text(
-                        brandProducts[i]['brand'].toString(),
+                        brandProducts[i],
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -153,8 +110,15 @@ class _BrandsScreenState extends State<BrandsScreen> {
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: 6,
-                itemBuilder: (ctx, i) => ProductWidget(),
+                itemCount: _products.length,
+                itemBuilder: (ctx, i) => ProductWidget(
+                  isFavorite: _products[i].isFavorit,
+                  id: _products[i].id,
+                  title: _products[i].title,
+                  imageUrl: _products[i].imageUrl,
+                  price: _products[i].price,
+                  quantity: _products[i].quantity,
+                ),
               ),
             ),
             SizedBox(
