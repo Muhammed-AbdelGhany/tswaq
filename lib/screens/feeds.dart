@@ -12,9 +12,12 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as String;
+    final popular = ModalRoute.of(context)!.settings.arguments as bool;
     final productProvider = Provider.of<ProductProvider>(context);
-    final _products = productProvider.products;
+    List<Product> _products = productProvider.products;
+    if (popular == true) {
+      _products = productProvider.popularProducts();
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

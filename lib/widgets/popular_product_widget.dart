@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/screens/product_details.dart';
 
 class PopularProductWidget extends StatelessWidget {
-  const PopularProductWidget({
+  final title;
+  final id;
+  final description;
+  final imageUrl;
+  final price;
+  bool? isFavorite = false;
+  PopularProductWidget({
     Key? key,
+    this.id,
+    this.title,
+    this.description,
+    this.imageUrl,
+    this.price,
+    this.isFavorite,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => ProductDetailsScreen(
+              id: id,
+            ),
+          ),
+        );
+      },
       child: Container(
         margin: EdgeInsets.all(10),
         height: 280,
@@ -29,7 +51,7 @@ class PopularProductWidget extends StatelessWidget {
                   height: 200,
                   width: double.infinity,
                   child: Image.network(
-                    'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg',
+                    imageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -51,9 +73,11 @@ class PopularProductWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: kPrimaryColor,
                     ),
-                    child: Text(
-                      '\$ 99.9',
-                      style: TextStyle(color: Colors.white),
+                    child: FittedBox(
+                      child: Text(
+                        '\$ $price',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
@@ -63,7 +87,9 @@ class PopularProductWidget extends StatelessWidget {
               padding: EdgeInsets.only(top: 10, right: 10, left: 10),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Rolex Watch',
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
@@ -75,25 +101,30 @@ class PopularProductWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Rolex ',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
-                      ],
+                  Flexible(
+                    flex: 4,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        description,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: () {},
-                      iconSize: 22,
-                      color: Colors.black,
-                      icon: Icon(Icons.add_shopping_cart),
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () {},
+                        iconSize: 22,
+                        color: Colors.black,
+                        icon: Icon(Icons.add_shopping_cart),
+                      ),
                     ),
                   ),
                 ],

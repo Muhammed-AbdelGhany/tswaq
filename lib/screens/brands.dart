@@ -22,6 +22,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
     'Dell',
     'Addidas',
     'Apple',
+    'All',
   ];
   int _currentIndex = 0;
 
@@ -45,7 +46,9 @@ class _BrandsScreenState extends State<BrandsScreen> {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
     List<Product> _products = productProvider.productsWithBrand(brand!);
-
+    if (brand == 'All') {
+      _products = productProvider.products;
+    }
     //final _products = productProvider.products;
 
     return Scaffold(

@@ -593,4 +593,12 @@ class ProductProvider with ChangeNotifier {
   List<Product> productsWithBrand(String brand) {
     return _products.where((e) => e.brand == brand).toList();
   }
+
+  List<Product> popularProducts() {
+    return _products.where((e) => e.isPopular == true).toList();
+  }
+
+  Product productDetails(String id) {
+    return _products.firstWhere((e) => e.id == id);
+  }
 }

@@ -5,7 +5,10 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/helpers/const_data.dart';
+import 'package:tswaq/providers/product_provider.dart';
 import 'package:tswaq/screens/brands.dart';
 import 'package:tswaq/screens/cart.dart';
 import 'package:tswaq/screens/feeds.dart';
@@ -14,34 +17,11 @@ import 'package:tswaq/widgets/popular_product_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  List carouselImages = [
-    'assets/images/carousel1.png',
-    'assets/images/carousel2.jpeg',
-    'assets/images/carousel3.jpg',
-    'assets/images/carousel4.png',
-  ];
 
-  List<Map<String, Object>> brands = [
-    {'brand': 'H&M', 'photo': 'assets/images/h&m.jpg'},
-    {'brand': 'Huawei', 'photo': 'assets/images/Huawei.jpg'},
-    {'brand': 'Nike', 'photo': 'assets/images/nike.jpg'},
-    {'brand': 'Samsung', 'photo': 'assets/images/samsung.jpg'},
-    {'brand': 'Dell', 'photo': 'assets/images/Dell.jpg'},
-    {'brand': 'Addidas', 'photo': 'assets/images/addidas.jpg'},
-    {'brand': 'Apple', 'photo': 'assets/images/apple.jpg'},
-  ];
-
-  List<Map<String, Object>> categories = [
-    {'category': 'Phones', 'photo': 'assets/images/CatPhones.png'},
-    {'category': 'Clothes', 'photo': 'assets/images/CatClothes.jpg'},
-    {'category': 'Laptops', 'photo': 'assets/images/CatLaptops.png'},
-    {'category': 'Beauty', 'photo': 'assets/images/CatBeauty.jpg'},
-    {'category': 'Furniture', 'photo': 'assets/images/CatFurniture.jpg'},
-    {'category': 'Shoes', 'photo': 'assets/images/CatShoes.jpg'},
-    {'category': 'Watches', 'photo': 'assets/images/CatWatches.jpg'},
-  ];
   @override
   Widget build(BuildContext context) {
+    final popularProducts =
+        Provider.of<ProductProvider>(context).popularProducts();
     return Scaffold(
       body: BackdropScaffold(
         frontLayerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -268,11 +248,17 @@ class HomeScreen extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Spacer(),
-                    Text(
-                      ' View all...',
-                      style: TextStyle(fontSize: 16, color: Colors.red),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, BrandsScreen.routeName,
+                            arguments: 'All');
+                      },
+                      child: Text(
+                        ' View all...',
+                        style: TextStyle(fontSize: 16, color: Colors.red),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
@@ -326,11 +312,17 @@ class HomeScreen extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Spacer(),
-                    Text(
-                      ' View all...',
-                      style: TextStyle(fontSize: 16, color: Colors.red),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, FeedScreen.routeName,
+                            arguments: true);
+                      },
+                      child: Text(
+                        ' View all...',
+                        style: TextStyle(fontSize: 16, color: Colors.red),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
@@ -343,8 +335,15 @@ class HomeScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 6,
-                  itemBuilder: (ctx, i) => PopularProductWidget(),
+                  itemCount: popularProducts.length,
+                  itemBuilder: (ctx, i) => PopularProductWidget(
+                    price: popularProducts[i].price,
+                    description: popularProducts[i].description,
+                    imageUrl: popularProducts[i].imageUrl,
+                    isFavorite: popularProducts[i].isFavorit,
+                    title: popularProducts[i].title,
+                    id: popularProducts[i].id,
+                  ),
                 ),
               ),
             ],

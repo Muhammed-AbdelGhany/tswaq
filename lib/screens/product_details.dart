@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:tswaq/providers/product_provider.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({Key? key}) : super(key: key);
+  final id;
+  const ProductDetailsScreen({Key? key, @required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+    final products = productProvider.products;
+    final productDetails = productProvider.productDetails(id);
     return Scaffold(
       body: Stack(
         children: [
           Container(
             color: Theme.of(context).cardColor,
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * .45,
+            height: MediaQuery.of(context).size.height * .6,
             foregroundDecoration: BoxDecoration(color: Colors.black26),
             child: Container(
               margin: EdgeInsets.all(60),
               child: Image.network(
-                'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg',
-                fit: BoxFit.cover,
+                productDetails.imageUrl!,
+                fit: BoxFit.fill,
               ),
             ),
           ),
@@ -58,7 +64,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Title',
+                            productDetails.title!,
                             style: TextStyle(
                                 fontWeight: FontWeight.w700, fontSize: 18),
                           ),
@@ -66,7 +72,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             height: 14,
                           ),
                           Text(
-                            '\$ 16',
+                            '\$ ${productDetails.price}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 18,
@@ -83,7 +89,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             height: 14,
                           ),
                           Text(
-                            'Description',
+                            productDetails.description!,
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 18,
@@ -101,28 +107,30 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                           BrandInfoWidget(
                             title: 'Brand: ',
-                            value: "BrandName",
+                            value: productDetails.brand,
                           ),
                           SizedBox(
                             height: 14,
                           ),
                           BrandInfoWidget(
                             title: 'Quantity: ',
-                            value: "12 Left",
+                            value: '${productDetails.quantity}',
                           ),
                           SizedBox(
                             height: 14,
                           ),
                           BrandInfoWidget(
                             title: 'Category: ',
-                            value: "CategoryName",
+                            value: '${productDetails.productCategoryName}',
                           ),
                           SizedBox(
                             height: 14,
                           ),
                           BrandInfoWidget(
                             title: 'Popularity: ',
-                            value: "Popular",
+                            value: productDetails.isPopular!
+                                ? "Popular "
+                                : "Not Popular ",
                           ),
                           SizedBox(
                             height: 14,
@@ -177,8 +185,15 @@ class ProductDetailsScreen extends StatelessWidget {
                             width: double.infinity,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: 6,
-                              itemBuilder: (ctx, i) => ProductWidget(),
+                              itemCount: products.length,
+                              itemBuilder: (ctx, i) => ProductWidget(
+                                id: products[i].id,
+                                imageUrl: products[i].imageUrl,
+                                isFavorite: products[i].isFavorit,
+                                price: products[i].price,
+                                quantity: products[i].quantity,
+                                title: products[i].title,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -197,6 +212,8 @@ class ProductDetailsScreen extends StatelessWidget {
             left: 0,
             right: 0,
             child: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
               centerTitle: true,
               title: Text('Details'),
               actions: [

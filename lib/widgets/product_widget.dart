@@ -28,7 +28,9 @@ class ProductWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => ProductDetailsScreen(),
+            builder: (ctx) => ProductDetailsScreen(
+              id: id,
+            ),
           ),
         );
       },
@@ -81,6 +83,8 @@ class ProductWidget extends StatelessWidget {
               child: Text(
                 title,
                 textAlign: TextAlign.start,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
