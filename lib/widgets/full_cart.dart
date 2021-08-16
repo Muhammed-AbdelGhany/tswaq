@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/models/cart.dart';
 
 class FullCartScreen extends StatefulWidget {
-  const FullCartScreen({Key? key}) : super(key: key);
+  final productId;
+  final id;
+  final title;
+  final price;
+  final quantity;
+  final imageUrl;
+
+  FullCartScreen({
+    Key? key,
+    this.productId,
+    this.id,
+    this.title,
+    this.price,
+    this.imageUrl,
+    this.quantity,
+  }) : super(key: key);
 
   @override
   _FullCartScreenState createState() => _FullCartScreenState();
@@ -12,166 +28,174 @@ class FullCartScreen extends StatefulWidget {
 class _FullCartScreenState extends State<FullCartScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          height: 160,
-          width: double.infinity,
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              ),
-              color: Theme.of(context).cardColor),
-          child: Row(
-            children: [
-              Container(
-                height: 160,
-                width: 120,
-                child: Image.network(
-                  'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg',
-                  fit: BoxFit.cover,
+    return Container(
+      height: 160,
+      width: double.infinity,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+          color: Theme.of(context).cardColor),
+      child: Row(
+        children: [
+          Container(
+            height: 160,
+            width: 120,
+            child: Image.network(
+              widget.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width - 160,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                          child: Text(
+                        widget.title,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Entypo.cross),
+                        color: Colors.red,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width - 160,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Container(
+                  width: MediaQuery.of(context).size.width - 160,
+                  child: Row(
+                    children: [
+                      Flexible(
+                          child: Text(
+                        'Price: ',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      Flexible(
+                          child: Text(
+                        '${widget.price}',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width - 160,
+                  child: Row(
+                    children: [
+                      Flexible(
+                          child: Text(
+                        'Sub Total: ',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      Flexible(
+                          child: Text(
+                        ' ${(widget.price * widget.quantity)}',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width - 160,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                          child: Text(
+                        'Ships Free',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pink),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      Row(
                         children: [
-                          Flexible(
-                              child: Text(
-                            'Rolex',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(Entypo.cross),
-                            color: Colors.red,
+                            icon: Icon(Entypo.minus),
+                            color: Colors.grey,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: kPrimaryColor,
+                            ),
+                            alignment: Alignment.center,
+                            height: 40,
+                            width: 50,
+                            child: Text(
+                              '${widget.quantity}',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Entypo.plus),
+                            color: Colors.green,
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 160,
-                      child: Row(
-                        children: [
-                          Flexible(
-                              child: Text(
-                            'Price: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          Flexible(
-                              child: Text(
-                            ' 250\$',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 160,
-                      child: Row(
-                        children: [
-                          Flexible(
-                              child: Text(
-                            'Sub Total: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          Flexible(
-                              child: Text(
-                            ' 250\$',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 160,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                              child: Text(
-                            'Ships Free',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.pink),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Entypo.minus),
-                                color: Colors.grey,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: kPrimaryColor,
-                                ),
-                                alignment: Alignment.center,
-                                height: 40,
-                                width: 50,
-                                child: Text(
-                                  '1',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Entypo.plus),
-                                color: Colors.green,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-            child: Column(
-          children: [
-            Divider(
-              thickness: 1,
+              ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CheckoutWidget extends StatelessWidget {
+  const CheckoutWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.height * .1245);
+    return Container(
+        decoration:
+            BoxDecoration(border: Border.all(color: Colors.grey, width: .1)),
+        height: MediaQuery.of(context).size.height * .08,
+        child: Column(
+          children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -219,8 +243,6 @@ class _FullCartScreenState extends State<FullCartScreen> {
               ),
             )
           ],
-        ))
-      ],
-    );
+        ));
   }
 }

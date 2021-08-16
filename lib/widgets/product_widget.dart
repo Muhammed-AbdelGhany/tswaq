@@ -121,13 +121,16 @@ class ProductWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: () {},
-                      iconSize: 14,
-                      color: Colors.grey,
-                      icon: Icon(Icons.more_horiz),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () {},
+                        iconSize: 14,
+                        color: Colors.grey,
+                        icon: Icon(Icons.more_horiz),
+                      ),
                     ),
                   ),
                 ],

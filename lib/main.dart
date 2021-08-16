@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tswaq/bottom_bar.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/providers/dark_theme_provider.dart';
 import 'package:tswaq/providers/product_provider.dart';
 import 'package:tswaq/screens/brands.dart';
@@ -43,6 +44,9 @@ class _MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (_) => ProductProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => CartProvider(),
           ),
         ],
         child: Consumer<DarkThemeProvider>(builder: (context, theme, _) {

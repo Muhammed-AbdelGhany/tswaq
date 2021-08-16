@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/providers/product_provider.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
@@ -11,8 +12,11 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+
     final products = productProvider.products;
     final productDetails = productProvider.productDetails(id);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -240,7 +244,13 @@ class ProductDetailsScreen extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        cartProvider.addCartItem(
+                            productDetails.id!,
+                            productDetails.price!,
+                            productDetails.title!,
+                            productDetails.imageUrl!);
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         height: 60,
