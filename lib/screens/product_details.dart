@@ -244,17 +244,23 @@ class ProductDetailsScreen extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: InkWell(
-                      onTap: () {
-                        cartProvider.addCartItem(
-                            productDetails.id!,
-                            productDetails.price!,
-                            productDetails.title!,
-                            productDetails.imageUrl!);
-                      },
+                      onTap:
+                          cartProvider.cartItems.containsKey(productDetails.id)
+                              ? null
+                              : () {
+                                  cartProvider.addCartItem(
+                                      productDetails.id!,
+                                      productDetails.price!,
+                                      productDetails.title!,
+                                      productDetails.imageUrl!);
+                                },
                       child: Container(
                         alignment: Alignment.center,
                         height: 60,
-                        color: Colors.red,
+                        color: cartProvider.cartItems
+                                .containsKey(productDetails.id)
+                            ? Colors.grey
+                            : Colors.red,
                         child: Text(
                           'ADD TO CART',
                           style: TextStyle(

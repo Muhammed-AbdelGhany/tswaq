@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/screens/product_details.dart';
 
 class PopularProductWidget extends StatelessWidget {
@@ -21,6 +23,7 @@ class PopularProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -120,10 +123,17 @@ class PopularProductWidget extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: cartProvider.cartItems.containsKey(id)
+                            ? null
+                            : () {
+                                cartProvider.addCartItem(
+                                    id, price, title, imageUrl);
+                              },
                         iconSize: 22,
                         color: Colors.black,
-                        icon: Icon(Icons.add_shopping_cart),
+                        icon: Icon(cartProvider.cartItems.containsKey(id)
+                            ? Icons.check
+                            : Icons.add_shopping_cart),
                       ),
                     ),
                   ),
