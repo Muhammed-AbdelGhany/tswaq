@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/providers/product_provider.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
+import 'package:tswaq/screens/cart.dart';
+import 'package:tswaq/screens/wishlist.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -13,6 +17,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
 
     final products = productProvider.products;
     final productDetails = productProvider.productDetails(id);
@@ -221,15 +226,76 @@ class ProductDetailsScreen extends StatelessWidget {
               centerTitle: true,
               title: Text('Details'),
               actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Feather.heart, color: Colors.pink),
+                Stack(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => WishListScreen(),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.favorite,
+                        color: Colors.pink,
+                        size: 32,
+                      ),
+                    ),
+                    Positioned(
+                      top: 1,
+                      right: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '${wishlistProvider.wishlistItems.length}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Feather.shopping_cart,
-                  ),
+                Stack(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => CartScreen(),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Feather.shopping_cart,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    Positioned(
+                      top: 1,
+                      right: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '${cartProvider.cartItems.length}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -304,14 +370,24 @@ class ProductDetailsScreen extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        wishlistProvider.addWishlistItem(
+                            id,
+                            productDetails.imageUrl!,
+                            productDetails.price!,
+                            productDetails.title!);
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         height: 60,
                         color: Colors.grey,
                         child: Icon(
-                          Feather.heart,
-                          color: Colors.white,
+                          Icons.favorite,
+                          size: 32,
+                          color: wishlistProvider.wishlistItems
+                                  .containsKey(productDetails.id)
+                              ? Colors.red
+                              : Colors.white,
                         ),
                       ),
                     ),

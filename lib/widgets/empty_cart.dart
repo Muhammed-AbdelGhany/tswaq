@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tswaq/bottom_bar.dart';
 import 'package:tswaq/providers/dark_theme_provider.dart';
+import 'package:tswaq/screens/home.dart';
 
 class EmptyCartScreen extends StatelessWidget {
   const EmptyCartScreen({Key? key}) : super(key: key);
@@ -48,7 +50,14 @@ class EmptyCartScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                   side: BorderSide(color: Colors.red)),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => BottomBar(),
+                  ),
+                );
+              },
               child: Text(
                 'SHOP NOW',
                 style: TextStyle(

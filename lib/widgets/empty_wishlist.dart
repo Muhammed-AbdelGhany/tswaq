@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tswaq/bottom_bar.dart';
 
 class EmptyWishList extends StatelessWidget {
   const EmptyWishList({Key? key}) : super(key: key);
@@ -45,7 +46,10 @@ class EmptyWishList extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                   side: BorderSide(color: Colors.red)),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (ctx) => BottomBar()));
+              },
               child: Text(
                 'ADD A WISH',
                 style: TextStyle(

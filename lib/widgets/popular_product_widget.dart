@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/providers/cart_provider.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
 import 'package:tswaq/screens/product_details.dart';
 
 class PopularProductWidget extends StatelessWidget {
@@ -24,6 +25,7 @@ class PopularProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -60,8 +62,15 @@ class PopularProductWidget extends StatelessWidget {
                 ),
                 Positioned(
                   child: InkWell(
-                    onTap: () {},
-                    child: Icon(Icons.star_border_outlined),
+                    onTap: () {
+                      wishlistProvider.addWishlistItem(
+                          id, imageUrl!, price!, title!);
+                    },
+                    child: Icon(
+                        wishlistProvider.wishlistItems.containsKey(id)
+                            ? Icons.star
+                            : Icons.star_border_outlined,
+                        color: Colors.orangeAccent),
                   ),
                   right: 4,
                   top: 4,

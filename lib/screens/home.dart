@@ -9,9 +9,11 @@ import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/helpers/const_data.dart';
 import 'package:tswaq/providers/product_provider.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
 import 'package:tswaq/screens/brands.dart';
 import 'package:tswaq/screens/cart.dart';
 import 'package:tswaq/screens/feeds.dart';
+import 'package:tswaq/screens/wishlist.dart';
 import 'package:tswaq/widgets/category_widget.dart';
 import 'package:tswaq/widgets/popular_product_widget.dart';
 
@@ -22,6 +24,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final popularProducts =
         Provider.of<ProductProvider>(context).popularProducts();
+    final wishlistItems = Provider.of<WishlistProvider>(context).wishlistItems;
     return Scaffold(
       body: BackdropScaffold(
         frontLayerBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -46,7 +49,14 @@ class HomeScreen extends StatelessWidget {
                   Container(
                     alignment: Alignment.center,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => WishListScreen(),
+                          ),
+                        );
+                      },
                       child: Text(
                         'Wish List',
                         textAlign: TextAlign.center,
@@ -67,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        '1',
+                        '${wishlistItems.length}',
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -172,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                       child: BacklayerContent(
                         title: 'WishList',
                         icon: Icons.favorite_outline,
-                        screen: FeedScreen(),
+                        screen: WishListScreen(),
                       ),
                     ),
                     Padding(

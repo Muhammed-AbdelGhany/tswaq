@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/helpers/global_methods.dart';
 import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/widgets/empty_cart.dart';
 import 'package:tswaq/widgets/full_cart.dart';
@@ -39,12 +40,12 @@ class CartScreen extends StatelessWidget {
             bottomSheet: CheckoutWidget(),
             appBar: AppBar(
               title: Text(
-                'Cart Item Count',
+                'Cart (${cartProvider.cartItems.length})',
               ),
               actions: [
                 IconButton(
                   onPressed: () {
-                    _showDilog(
+                    showDilogWidget(
                         'Items Remove',
                         'Do you want to remove all items ?',
                         context,
@@ -55,38 +56,5 @@ class CartScreen extends StatelessWidget {
               ],
             ),
           );
-  }
-
-  Future<void> _showDilog(
-      String title, String content, BuildContext context, Function fct) async {
-    showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(content),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Cancle',
-                  style: TextStyle(color: kPrimaryColor),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  fct();
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Ok',
-                  style: TextStyle(color: kPrimaryColor),
-                ),
-              ),
-            ],
-          );
-        });
   }
 }

@@ -3,7 +3,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/providers/dark_theme_provider.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
 import 'package:tswaq/screens/cart.dart';
 import 'package:tswaq/screens/wishlist.dart';
 import 'package:tswaq/widgets/user_bag_tile.dart';
@@ -32,6 +34,8 @@ class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<DarkThemeProvider>(context);
+    final wishlistItems = Provider.of<WishlistProvider>(context).wishlistItems;
+    final cartItems = Provider.of<CartProvider>(context).cartItems;
     return Scaffold(
       body: Stack(
         children: [
@@ -133,13 +137,13 @@ class _UserScreenState extends State<UserScreen> {
                     UserBagTile(
                       title: 'Withlist',
                       icon: Feather.heart,
-                      count: "6",
+                      count: "${wishlistItems.length}",
                       screen: WishListScreen(),
                     ),
                     UserBagTile(
                       title: 'Cart',
                       icon: Feather.shopping_cart,
-                      count: "2",
+                      count: "${cartItems.length}",
                       screen: CartScreen(),
                     ),
                     Padding(

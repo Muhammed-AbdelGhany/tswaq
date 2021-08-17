@@ -61,7 +61,7 @@ class _FullCartScreenState extends State<FullCartScreen> {
               width: 120,
               child: Image.network(
                 widget.imageUrl,
-                fit: BoxFit.cover,
+                //   fit: BoxFit.cover,
               ),
             ),
             Padding(
@@ -106,9 +106,10 @@ class _FullCartScreenState extends State<FullCartScreen> {
                         )),
                         Flexible(
                             child: Text(
-                          '${widget.price}',
+                          '\$ ${widget.price}',
                           style: TextStyle(
                             fontSize: 18,
+                            color: Colors.blue,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -130,9 +131,10 @@ class _FullCartScreenState extends State<FullCartScreen> {
                         )),
                         Flexible(
                             child: Text(
-                          ' ${(widget.price * widget.quantity).toStringAsFixed(2)}',
+                          '\$ ${(widget.price * widget.quantity).toStringAsFixed(2)}',
                           style: TextStyle(
                             fontSize: 18,
+                            color: Colors.blue,
                           ),
                           maxLines: 1,
                         )),

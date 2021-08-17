@@ -5,6 +5,7 @@ import 'package:tswaq/constants/constants.dart';
 import 'package:tswaq/providers/cart_provider.dart';
 import 'package:tswaq/providers/dark_theme_provider.dart';
 import 'package:tswaq/providers/product_provider.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
 import 'package:tswaq/screens/brands.dart';
 import 'package:tswaq/screens/category_feeds.dart';
 import 'package:tswaq/screens/feeds.dart';
@@ -47,6 +48,9 @@ class _MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (_) => CartProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => WishlistProvider(),
           ),
         ],
         child: Consumer<DarkThemeProvider>(builder: (context, theme, _) {

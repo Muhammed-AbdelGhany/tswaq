@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/helpers/global_methods.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
 
 class FullWishList extends StatefulWidget {
-  const FullWishList({Key? key}) : super(key: key);
+  final productId;
+  final id;
+  final title;
+  final imageUrl;
+  final price;
+  const FullWishList(
+      {Key? key,
+      this.productId,
+      this.id,
+      this.title,
+      this.imageUrl,
+      this.price})
+      : super(key: key);
 
   @override
   _FullWishListState createState() => _FullWishListState();
@@ -11,10 +26,12 @@ class FullWishList extends StatefulWidget {
 class _FullWishListState extends State<FullWishList> {
   @override
   Widget build(BuildContext context) {
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 50),
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(right: 50, bottom: 10, left: 10),
           width: double.infinity,
           height: 120,
           decoration: BoxDecoration(
@@ -25,11 +42,11 @@ class _FullWishListState extends State<FullWishList> {
             child: Row(
               children: [
                 Container(
-                  height: 100,
+                  // height: 100,
                   width: 120,
                   child: Image.network(
-                    'https://thumbs.dreamstime.com/b/gold-watch-leather-strap-brown-white-face-31297366.jpg',
-                    fit: BoxFit.cover,
+                    widget.imageUrl,
+                    // fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(
@@ -38,16 +55,30 @@ class _FullWishListState extends State<FullWishList> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Title',
-                      style: TextStyle(fontSize: 18),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: 200,
+                      child: Text(
+                        widget.title,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                     SizedBox(
                       height: 40,
                     ),
-                    Text(
-                      '\$ 200',
-                      style: TextStyle(fontSize: 18),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: 200,
+                      child: Text(
+                        '\$ ${widget.price}',
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ],
                 ),
@@ -65,9 +96,14 @@ class _FullWishListState extends State<FullWishList> {
                 borderRadius: BorderRadius.circular(4), color: Colors.red),
             child: InkWell(
               splashColor: kAccentColor,
-              onTap: () {},
+              onTap: () {
+                showDilogWidget('Delete Item!',
+                    'Are you sure you want to delete this items?', context, () {
+                  wishlistProvider.deleteItem(widget.productId);
+                });
+              },
               child: Icon(
-                Icons.remove,
+                Icons.clear,
               ),
             ),
           ),

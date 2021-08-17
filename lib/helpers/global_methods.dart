@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tswaq/constants/constants.dart';
 
-Future<void> showDilog(
+Future<void> showDilogWidget(
     String title, String content, BuildContext context, Function fct) async {
   showDialog(
       context: context,
