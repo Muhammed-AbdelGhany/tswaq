@@ -9,6 +9,7 @@ import 'package:tswaq/screens/cart.dart';
 import 'package:tswaq/screens/wishlist.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
+//s
 class ProductDetailsScreen extends StatelessWidget {
   final id;
   const ProductDetailsScreen({Key? key, @required this.id}) : super(key: key);
