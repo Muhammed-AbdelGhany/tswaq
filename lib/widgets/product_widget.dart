@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tswaq/constants/constants.dart';
+import 'package:tswaq/providers/cart_provider.dart';
+import 'package:tswaq/providers/wishlist_provider.dart';
 import 'package:tswaq/screens/product_details.dart';
 
 class ProductWidget extends StatelessWidget {
@@ -23,6 +26,8 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -126,7 +131,154 @@ class ProductWidget extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return Dialog(
+                                  child: Container(
+                                    height:
+                                        MediaQuery.of(context).size.height * .5,
+                                    width:
+                                        MediaQuery.of(context).size.width * .8,
+                                    color: Theme.of(context).backgroundColor,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  .4 -
+                                              20,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .8,
+                                          child: Image.network(
+                                            imageUrl,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 6,
+                                        ),
+                                        Container(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              .10,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .8,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.all(5),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),
+                                                child: IconButton(
+                                                  // hoverColor: Colors.white,
+                                                  onPressed: () {
+                                                    wishlistProvider
+                                                        .addWishlistItem(
+                                                            id,
+                                                            imageUrl!,
+                                                            price!,
+                                                            title!);
+                                                    Navigator.canPop(context)
+                                                        ? Navigator.pop(context)
+                                                        : null;
+                                                  },
+                                                  color: wishlistProvider
+                                                          .wishlistItems
+                                                          .containsKey(id)
+                                                      ? Colors.red
+                                                      : Colors.black,
+                                                  icon: Icon(
+                                                      Icons.favorite_outline),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.all(5),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),
+                                                child: IconButton(
+                                                  hoverColor: Colors.white,
+                                                  onPressed: () {
+                                                    Navigator.canPop(context)
+                                                        ? Navigator.pop(context)
+                                                        : null;
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (ctx) =>
+                                                                ProductDetailsScreen(
+                                                                    id: id)));
+                                                  },
+                                                  icon: Icon(Icons
+                                                      .remove_red_eye_outlined),
+                                                ),
+                                              ),
+                                              Container(
+                                                // margin: EdgeInsets.all(5),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                ),
+                                                child: IconButton(
+                                                  // hoverColor: Colors.white,
+                                                  onPressed: cartProvider
+                                                          .cartItems
+                                                          .containsKey(id)
+                                                      ? null
+                                                      : () {
+                                                          cartProvider
+                                                              .addCartItem(
+                                                                  id,
+                                                                  price,
+                                                                  title,
+                                                                  imageUrl);
+                                                          Navigator.canPop(
+                                                                  context)
+                                                              ? Navigator.pop(
+                                                                  context)
+                                                              : null;
+                                                        },
+
+                                                  icon: cartProvider.cartItems
+                                                          .containsKey(id)
+                                                      ? Icon(Icons.check)
+                                                      : Icon(Icons
+                                                          .shopping_cart_outlined),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 6,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
                         iconSize: 14,
                         color: Colors.grey,
                         icon: Icon(Icons.more_horiz),

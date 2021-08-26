@@ -9,7 +9,6 @@ import 'package:tswaq/screens/cart.dart';
 import 'package:tswaq/screens/wishlist.dart';
 import 'package:tswaq/widgets/product_widget.dart';
 
-//s
 class ProductDetailsScreen extends StatelessWidget {
   final id;
   const ProductDetailsScreen({Key? key, @required this.id}) : super(key: key);
@@ -35,7 +34,7 @@ class ProductDetailsScreen extends StatelessWidget {
               margin: EdgeInsets.all(60),
               child: Image.network(
                 productDetails.imageUrl!,
-                fit: BoxFit.fill,
+                fit: BoxFit.fitHeight,
               ),
             ),
           ),

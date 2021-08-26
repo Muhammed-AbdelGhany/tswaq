@@ -53,11 +53,15 @@ class _FullWishListState extends State<FullWishList> {
                   width: 10,
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      width: 200,
+                      width: 100,
                       child: Text(
                         widget.title,
                         softWrap: true,
@@ -67,11 +71,11 @@ class _FullWishListState extends State<FullWishList> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 10,
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      width: 200,
+                      width: 100,
                       child: Text(
                         '\$ ${widget.price}',
                         softWrap: true,
